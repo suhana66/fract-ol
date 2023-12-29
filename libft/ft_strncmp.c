@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/29 11:29:01 by susajid           #+#    #+#             */
-/*   Updated: 2023/12/29 12:48:38 by susajid          ###   ########.fr       */
+/*   Created: 2023/11/01 16:26:37 by susajid           #+#    #+#             */
+/*   Updated: 2023/12/29 12:40:24 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	if (--argc != 1 || (ft_strncmp(argv[1], "Mandelbrot", 11)
-			&& ft_strncmp(argv[1], "Julia", 6)))
+	while (*s1 && *s2 && *s1 == *s2 && n)
 	{
-		ft_printf("usage: ./fractol [fractal]\n"
-			" fractals:\n"
-			"   --> Mandelbrot\n"
-			"   --> Julia\n");
-		return (1);
+		s1++;
+		s2++;
+		n--;
 	}
-	return (0);
+	if (!n)
+		return (0);
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
