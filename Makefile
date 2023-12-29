@@ -1,4 +1,4 @@
-NAME := fract-ol
+NAME := fractol
 SRC := main.c
 CC := cc
 CFLAGS := -Wall -Wextra -Werror
