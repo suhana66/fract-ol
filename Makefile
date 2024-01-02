@@ -1,5 +1,7 @@
 NAME := fractol
-SRC := main.c
+SRC := julia.c \
+	main.c \
+	mandelbrot.c
 CC := cc
 CFLAGS := -Wall -Wextra -Werror
 
@@ -23,4 +25,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all $(NAME) clean fclean re
+.PHONY: all clean fclean re

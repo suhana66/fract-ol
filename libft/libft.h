@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:30:11 by susajid           #+#    #+#             */
-/*   Updated: 2023/12/29 12:38:26 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/02 16:44:33 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,7 @@
 
 int	ft_printf(const char *s, ...);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int	ft_isdigit(int c);
+int	ft_isspace(int c);
 
 #endif /* LIBFT_H */
