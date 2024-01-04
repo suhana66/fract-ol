@@ -6,9 +6,11 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 10:03:17 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/04 11:30:52 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/04 15:26:07 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "fractol.h"
 
 void	build_mandelbrot(void)
 {

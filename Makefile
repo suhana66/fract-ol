@@ -7,16 +7,25 @@ CFLAGS := -Wall -Wextra -Werror
 
 LIBFT_PATH := libft
 LIBFT := $(LIBFT_PATH)/libft.a
+LIBFT_LINK := -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
+
+LIBMLX_PATH := libmlx
+LIBMLX := $(LIBMLX_PATH)/libmlx.a
+LIBMLX_LINK := -I$(LIBMLX_PATH) -L$(LIBMLX_PATH) -lmlx -framework OpenGL -framework AppKit
 
 all: $(NAME)
 
-$(NAME): $(SRC) $(LIBFT)
-	$(CC) $(CFLAGS) $^ -o $@
+$(NAME): $(SRC) $(LIBFT) $(LIBMLX)
+	$(CC) $(CFLAGS) $(SRC) $(LIBFT_LINK) $(LIBMLX_LINK) -o $@
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
 
+$(LIBMLX):
+	make -C $(LIBMLX_PATH)
+
 clean:
+	make clean -C $(LIBMLX_PATH)
 	make clean -C $(LIBFT_PATH)
 
 fclean: clean
