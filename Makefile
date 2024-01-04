@@ -1,9 +1,8 @@
 NAME := fractol
-SRC := julia.c \
-	main.c \
-	mandelbrot.c
+SRC := main.c \
+	display.c
 CC := cc
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror -fsanitize=address
 
 LIBFT_PATH := libft
 LIBFT := $(LIBFT_PATH)/libft.a
