@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:47:14 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/05 14:58:46 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/05 17:02:39 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # define WIDTH 800
 # define HEIGHT 600
+# define MAX_ITERATIONS 100
 
 // events
 enum

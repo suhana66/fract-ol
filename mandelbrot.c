@@ -6,11 +6,13 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:00:12 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/05 16:34:44 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/05 17:11:14 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+static void	calculate_mandelbrot(double x, double y);
 
 /*
 	(x, y) denotes the the pixel in the window
@@ -36,8 +38,42 @@ void	mandelbrot(void)
 		{
 			a = pixel_to_complex(x, -2, 2, WIDTH);
 			b = pixel_to_complex(y, -2, 2, HEIGHT);
+			calculate_mandelbrot(a, b);
 		}
 	}
 	mlx_loop(display->mlx);
 	(void)display;
+}
+
+/*
+	Complex number formulas
+	-----------------------
+	1)	Multiplication of complex numbers
+		(a + bi)(c + di) = (ac - bd) + i(ad + bc)
+	2)	complex number => a + bi
+		complex conjugate => a - bi
+	3)	complex number * complex conjugate
+		=> real number
+		=> (a + bi)(a - bi)
+		=> (a^2 - b^2) + i(-ab + ba)
+		=> a^2 - b^2
+	4) (a + bi)^2
+		=> (a + bi)(a + bi)
+		=> (a^2 + b^2) + i(ab + ab)
+		=> a^2 + b^2 + 2ab(i)
+*/
+static void	calculate_mandelbrot(double x, double y)
+{
+	int	i;
+
+	i = 0;
+	while (x * x - y * y < 4 && i < MAX_ITERATIONS)
+	{
+	}
+	if (i == MAX_ITERATIONS)
+	{
+	}
+	else
+	{
+	}
 }
