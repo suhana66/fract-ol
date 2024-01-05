@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:47:14 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/05 13:43:42 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/05 14:58:46 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,8 @@
 # include "libft.h"
 # include "mlx.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
-
-enum e_fractal
-{
-	MANDELBROT,
-	JULIA
-};
+# define WIDTH 800
+# define HEIGHT 600
 
 // events
 enum
@@ -39,7 +33,10 @@ enum
 };
 
 // keys
-# define KEY_ESC 65307
+enum
+{
+	KEY_ESC = 65307
+};
 
 typedef struct s_display
 {
@@ -48,7 +45,13 @@ typedef struct s_display
 	void	*img;
 }	t_display;
 
+void		mandelbrot(void);
+void		julia(double a, double b);
+
 t_display	*build_display(int width, int height, char *title);
-void		close_display(t_display *display);
+void		close_display(t_display *display, int exit_code, char *msg);
+
+int			key_hook(int key, t_display *display);
+int			exit_hook(t_display *display);
 
 #endif /* FRACTOL_H */

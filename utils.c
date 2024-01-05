@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:07:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/05 12:44:12 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/05 16:14:25 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,21 @@ t_display	*build_display(int width, int height, char *title)
 	if (result)
 		result->mlx = mlx_init();
 	if (!result || !result->mlx)
-		return (ft_printf("can not establish connection to x-server\n"),
-			close_display(result), NULL);
+		close_display(result, 1, "can not establish connection to x-server\n");
 	result->win = mlx_new_window(result->mlx, width, height, title);
 	if (!result->win)
-		return (ft_printf("can not create window to display fractal\n"),
-			close_display(result), NULL);
+		close_display(result, 2, "can not create window to display fractal\n");
 	result->img = mlx_new_image(result->win, width, height);
 	if (!result->img)
-		return (ft_printf("can not display fractal on window\n"),
-			close_display(result), NULL);
-	mlx_loop(result->mlx);
+		close_display(result, 3, "can not display fractal on window\n");
+	mlx_hook(result->win, ON_DESTROY, 0, exit_hook, result);
 	return (result);
 }
 
-void	close_display(t_display *display)
+void	close_display(t_display *display, int exit_code, char *msg)
 {
+	if (msg)
+		ft_printf(msg);
 	if (display->img)
 		mlx_destroy_image(display->mlx, display->img);
 	if (display->win && display->mlx)
@@ -43,4 +42,10 @@ void	close_display(t_display *display)
 	if (display->mlx)
 		free(display->mlx);
 	free(display);
+	exit(exit_code);
+}
+
+double	pixel_to_complex(int pixel, double start, double end, int full_length)
+{
+	return (start + pixel / full_length * (end - start));
 }
