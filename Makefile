@@ -1,20 +1,30 @@
 NAME := fractol
-SRC := main.c
+SRC := main.c \
+	display.c
 CC := cc
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror -fsanitize=address
 
 LIBFT_PATH := libft
 LIBFT := $(LIBFT_PATH)/libft.a
+LIBFT_LINK := -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
+
+LIBMLX_PATH := libmlx
+LIBMLX := $(LIBMLX_PATH)/libmlx.a
+LIBMLX_LINK := -I$(LIBMLX_PATH) -L$(LIBMLX_PATH) -lmlx -framework OpenGL -framework AppKit
 
 all: $(NAME)
 
-$(NAME): $(SRC) $(LIBFT)
-	$(CC) $(CFLAGS) $^ -o $@
+$(NAME): $(SRC) $(LIBFT) $(LIBMLX)
+	$(CC) $(CFLAGS) $(SRC) $(LIBFT_LINK) $(LIBMLX_LINK) -o $@
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
 
+$(LIBMLX):
+	make -C $(LIBMLX_PATH)
+
 clean:
+	make clean -C $(LIBMLX_PATH)
 	make clean -C $(LIBFT_PATH)
 
 fclean: clean
@@ -23,4 +33,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all $(NAME) clean fclean re
+.PHONY: all clean fclean re
