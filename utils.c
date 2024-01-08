@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:07:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/08 10:34:51 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/08 16:58:01 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,32 @@ void	close_display(t_display *display, int exit_code, char *msg)
 double	pixel_to_complex(int pixel, double start, double end, int len)
 {
 	return (start + pixel / len * (end - start));
+}
+
+/*
+	Complex number formulas
+	-----------------------
+	1)	Multiplication of complex numbers
+		(a + bi)(c + di) = (ac - bd) + i(ad + bc)
+	2)	(a + bi)^2
+		=> (a + bi)(a + bi)
+		=> (a^2 - b^2) + i(ab + ab)
+		=> a^2 - b^2 + 2ab(i)
+	3)	Absolute value of complex number
+		=> c = a + bi, |c|^2 = a^2 + b^2
+*/
+int	check_divergence(t_complex z, t_complex c)
+{
+	int			n;
+	double		temp;
+
+	n = 0;
+	while (z.r * z.r + z.i * z.i <= 4 && n < MAX_ITERATIONS)
+	{
+		temp = z.r * z.r - z.i * z.i + c.r;
+		z.i = 2 * z.r * z.i + c.i;
+		z.r = temp;
+		n++;
+	}
+	return (n);
 }

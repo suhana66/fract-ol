@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:47:14 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/08 14:31:33 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/08 16:54:34 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,12 @@ typedef struct s_display
 
 typedef struct s_complex
 {
-	double	a;
-	double	b;
+	double	r;
+	double	i;
 }	t_complex;
+
+void		mandelbrot(void);
+void		julia(t_complex *constant);
 
 t_display	*build_display(int width, int height, char *title);
 void		close_display(t_display *display, int exit_code, char *msg);
@@ -58,9 +61,7 @@ void		close_display(t_display *display, int exit_code, char *msg);
 int			key_hook(int key, t_display *display);
 int			exit_hook(t_display *display);
 
-void		mandelbrot(void);
-void		julia(t_complex *constant);
-
 double		pixel_to_complex(int pixel, double start, double end, int len);
+int			check_divergence(t_complex z, t_complex c);
 
 #endif /* FRACTOL_H */
