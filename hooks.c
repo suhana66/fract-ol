@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:54:04 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/05 16:12:00 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/09 15:00:53 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,5 @@ int	key_hook(int key, t_display *display)
 
 int	exit_hook(t_display *display)
 {
-	close_display(display, 0, "exited\n");
-	return (0);
+	return (exit_program(display, 0, "exited\n"), 0);
 }

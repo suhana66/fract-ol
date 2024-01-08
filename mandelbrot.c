@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:00:12 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/08 17:12:02 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/09 11:27:44 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,9 @@ void	mandelbrot(void)
 					(t_complex){pixel_to_complex(x, -2, 2, WIDTH),
 					pixel_to_complex(y, -2, 2, HEIGHT)});
 			if (n_iter == MAX_ITERATIONS)
-			{
-			}
+				img_pixel_put(display->img, x, y, 0x000000);
 			else
-			{
-			}
+				img_pixel_put(display->img, x, y, 0xFFFFFF);
 		}
 	}
 	mlx_loop(display->mlx);

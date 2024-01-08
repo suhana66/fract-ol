@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:29:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/08 16:42:33 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/09 14:59:44 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,22 @@ int	main(int argc, char **argv)
 	if (argc == 4 && parse_string(argv[1], "julia"))
 	{
 		c = malloc(sizeof(t_complex));
-		if (!c || parse_range(argv[2], &(c->r), -2, 2)
+		if (!c)
+			exit_program(NULL, 1, NULL);
+		if (parse_range(argv[2], &(c->r), -2, 2)
 			|| parse_range(argv[3], &(c->i), -2, 2))
-			return (ft_printf("an invalid constant was given for julia fractal,"
-					" a and b in a + bi must be in the range [-2, 2]\n"),
-				free(c), 1);
+		{
+			free(c);
+			exit_program(NULL, 2, "an invalid constant was given for julia "
+				"fractal, a and b in a + bi must be in the range [-2, 2]\n");
+		}
 		return (julia(c), free(c), 0);
 	}
-	return (ft_printf("usage: ./fractol <fractal> [a] [b]\n"
-			" fractals: mandelbrot, julia\n"
-			" constant: [a] [b]\n"
-			"   the julia fractal requires a constant complex number in the"
-			" form a + bi, where a and b are floating numbers\n"), 2);
+	exit_program(NULL, 3, "usage: ./fractol <fractal> [a] [b]\n"
+		" fractals: mandelbrot, julia\n"
+		" constant: [a] [b]\n"
+		"   the julia fractal requires a constant complex number in the"
+		" form a + bi, where a and b are floating numbers\n");
 }
 
 static bool	parse_string(char *str, char *model)
@@ -46,16 +50,15 @@ static bool	parse_string(char *str, char *model)
 		return (false);
 	while (ft_isspace(*str))
 		str++;
-	while (*str && *model && ft_tolower(*str) == ft_tolower(*model))
+	while (*str && *model
+		&& ft_tolower((unsigned char)*str) == ft_tolower((unsigned char)*model))
 	{
 		model++;
 		str++;
 	}
 	while (ft_isspace(*str))
 		str++;
-	if (*str || *model)
-		return (false);
-	return (true);
+	return (!*str && !*model);
 }
 
 static int	parse_range(char *str, double *result, double r_min, double r_max)

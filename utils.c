@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:07:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/08 16:58:01 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/09 14:59:00 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,27 @@ t_display	*build_display(int width, int height, char *title)
 	t_display	*result;
 
 	result = malloc(sizeof(t_display));
-	if (result)
-		result->mlx = mlx_init();
+	result->mlx = mlx_init();
 	if (!result || !result->mlx)
-		close_display(result, 1, "can not establish connection to x-server\n");
+		exit_program(result, 2, "can not establish connection to x-server\n");
 	result->win = mlx_new_window(result->mlx, width, height, title);
 	if (!result->win)
-		close_display(result, 2, "can not create window to display fractal\n");
+		exit_program(result, 3, "can not create window to display fractal\n");
 	result->img = mlx_new_image(result->win, width, height);
 	if (!result->img)
-		close_display(result, 3, "can not display fractal on window\n");
+		exit_program(result, 4, "can not display fractal on window\n");
 	mlx_hook(result->win, ON_DESTROY, 0, exit_hook, result);
 	return (result);
 }
 
-void	close_display(t_display *display, int exit_code, char *msg)
+void	exit_program(t_display *display, int exit_code, char *msg)
 {
+	if (exit_code == 1)
+		msg = "a memory allocation error occured\n";
 	if (msg)
 		ft_printf(msg);
+	if (!display)
+		return ;
 	if (display->img)
 		mlx_destroy_image(display->mlx, display->img);
 	if (display->win && display->mlx)
@@ -43,6 +46,10 @@ void	close_display(t_display *display, int exit_code, char *msg)
 		free(display->mlx);
 	free(display);
 	exit(exit_code);
+}
+
+void	img_pixel_put(void	*image, int x, int y, int color)
+{
 }
 
 double	pixel_to_complex(int pixel, double start, double end, int len)
