@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:29:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/05 14:18:56 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/08 14:47:40 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,19 @@ static int	parse_range(char *str, double *result, double r_min, double r_max);
 
 int	main(int argc, char **argv)
 {
-	double		a;
-	double		b;
+	t_complex	*c;
 
 	if (argc == 2 && parse_string(argv[1], "mandelbrot"))
-		mandelbrot();
+		return (mandelbrot(), 0);
 	if (argc == 4 && parse_string(argv[1], "julia"))
 	{
-		if (parse_range(argv[2], &a, -2, 2) || parse_range(argv[3], &b, -2, 2))
-			return (ft_printf("an invalid constant was given for julia fractal"
-					", a and b in a + bi must be in the range [-2, 2]\n"), 1);
-		julia(a, b);
+		c = malloc(sizeof(t_complex));
+		if (!c || parse_range(argv[2], &(c->a), -2, 2)
+			|| parse_range(argv[3], &(c->b), -2, 2))
+			return (ft_printf("an invalid constant was given for julia fractal,"
+					" a and b in a + bi must be in the range [-2, 2]\n"),
+				free(c), 1);
+		return (julia(c), free(c), 0);
 	}
 	return (ft_printf("usage: ./fractol <fractal> [a] [b]\n"
 			" fractals: mandelbrot, julia\n"
