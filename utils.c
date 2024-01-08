@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:07:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/05 16:14:25 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/08 10:34:51 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	close_display(t_display *display, int exit_code, char *msg)
 	exit(exit_code);
 }
 
-double	pixel_to_complex(int pixel, double start, double end, int full_length)
+double	pixel_to_complex(int pixel, double start, double end, int len)
 {
-	return (start + pixel / full_length * (end - start));
+	return (start + pixel / len * (end - start));
 }

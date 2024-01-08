@@ -1,6 +1,5 @@
 NAME := libft.a
 SRC := ft_printf.c \
-	ft_strncmp.c \
 	ft_isdigit.c \
 	ft_isspace.c \
 	ft_tolower.c
