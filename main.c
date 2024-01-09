@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:29:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/09 14:59:44 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/09 15:44:14 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,17 @@ static int	parse_range(char *str, double *result, double r_min, double r_max);
 
 int	main(int argc, char **argv)
 {
-	t_complex	*c;
+	t_complex	c;
 
 	if (argc == 2 && parse_string(argv[1], "mandelbrot"))
 		return (mandelbrot(), 0);
 	if (argc == 4 && parse_string(argv[1], "julia"))
 	{
-		c = malloc(sizeof(t_complex));
-		if (!c)
-			exit_program(NULL, 1, NULL);
-		if (parse_range(argv[2], &(c->r), -2, 2)
-			|| parse_range(argv[3], &(c->i), -2, 2))
-		{
-			free(c);
+		if (parse_range(argv[2], &c.r, -2, 2)
+			|| parse_range(argv[3], &c.i, -2, 2))
 			exit_program(NULL, 2, "an invalid constant was given for julia "
 				"fractal, a and b in a + bi must be in the range [-2, 2]\n");
-		}
-		return (julia(c), free(c), 0);
+		return (julia(c), 0);
 	}
 	exit_program(NULL, 3, "usage: ./fractol <fractal> [a] [b]\n"
 		" fractals: mandelbrot, julia\n"

@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:47:14 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/09 14:48:22 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/09 15:55:43 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,19 @@ enum
 
 typedef struct s_display
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
+	void			*mlx;
+	void			*win;
+	struct s_image	*img;
 }	t_display;
+
+typedef struct s_image
+{
+	void	*image;
+	char	*buffer;
+	int		bpp;
+	int		line_length;
+	int		endian;
+}			t_image;
 
 typedef struct s_complex
 {
@@ -53,11 +62,11 @@ typedef struct s_complex
 }	t_complex;
 
 void		mandelbrot(void);
-void		julia(t_complex *constant);
+void		julia(t_complex constant);
 
 t_display	*build_display(int width, int height, char *title);
 void		exit_program(t_display *display, int exit_code, char *msg);
-void		img_pixel_put(void *image, int x, int y, int color);
+void		put_pixel(t_image *img, int x, int y, int color);
 
 double		pixel_to_complex(int pixel, double start, double end, int len);
 int			check_divergence(t_complex z, t_complex c);

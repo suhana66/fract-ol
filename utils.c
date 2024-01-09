@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:07:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/09 14:59:00 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/10 10:53:30 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,38 @@
 
 t_display	*build_display(int width, int height, char *title)
 {
+	t_image		*img;
 	t_display	*result;
 
 	result = malloc(sizeof(t_display));
+	img = malloc(sizeof(t_image));
+	if (!result || !img)
+		exit_program(result, 1, "a memory allocation error occured\n");
 	result->mlx = mlx_init();
 	if (!result || !result->mlx)
 		exit_program(result, 2, "can not establish connection to x-server\n");
 	result->win = mlx_new_window(result->mlx, width, height, title);
 	if (!result->win)
 		exit_program(result, 3, "can not create window to display fractal\n");
-	result->img = mlx_new_image(result->win, width, height);
-	if (!result->img)
+	img->image = mlx_new_image(result->win, width, height);
+	if (!img->image)
 		exit_program(result, 4, "can not display fractal on window\n");
+	img->buffer = mlx_get_data_addr(img->image, &img->bpp, &img->line_length,
+			&img->endian);
+	result->img = img;
 	mlx_hook(result->win, ON_DESTROY, 0, exit_hook, result);
 	return (result);
 }
 
 void	exit_program(t_display *display, int exit_code, char *msg)
 {
-	if (exit_code == 1)
-		msg = "a memory allocation error occured\n";
 	if (msg)
 		ft_printf(msg);
 	if (!display)
-		return ;
-	if (display->img)
-		mlx_destroy_image(display->mlx, display->img);
+		exit(exit_code);
+	if (display->img && display->img->image && display->mlx)
+		mlx_destroy_image(display->mlx, display->img->image);
+	free(display->img);
 	if (display->win && display->mlx)
 		mlx_destroy_window(display->mlx, display->win);
 	if (display->mlx)
@@ -48,13 +54,19 @@ void	exit_program(t_display *display, int exit_code, char *msg)
 	exit(exit_code);
 }
 
-void	img_pixel_put(void	*image, int x, int y, int color)
+void	put_pixel(t_image *img, int x, int y, int color)
 {
+	char	*pixel;
+
+	if (!img)
+		return ;
+	pixel = img->buffer + (y * img->line_length + x * (img->bpp / 8));
+	*(unsigned int *)pixel = color;
 }
 
 double	pixel_to_complex(int pixel, double start, double end, int len)
 {
-	return (start + pixel / len * (end - start));
+	return (start + (end - start) / len * pixel);
 }
 
 /*
