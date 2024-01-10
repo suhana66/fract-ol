@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:00:12 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/10 13:30:30 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/11 12:04:19 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,20 @@
 		----- = -------------
 		height	max_y - min_y
 */
-void	mandelbrot(void)
+void	mandelbrot(t_complex min, t_complex max)
 {
 	int			x;
 	int			y;
 	int			n_iter;
-	double		max_x;
-	double		min_x;
-	double		max_y;
-	double		min_y;
+	int			img_width;
+	int			img_height;
 	t_display	*display;
 
-	min_y = -1.25;
-	max_y = 1.25;
-	min_x = -2.25;
-	max_x = 1;
 	display = build_display(WIDTH, HEIGHT, "mandelbrot");
-	build_image(display, WIDTH, HEIGHT, (max_x - min_x) / (max_y - min_y));
+	img_width = WIDTH;
+	img_height = HEIGHT;
+	closest_size(&img_width, &img_height, max.r - min.r, max.i - min.i);
+	build_image(display, img_width, img_height);
 	x = -1;
 	while (++x < WIDTH)
 	{
@@ -46,8 +43,8 @@ void	mandelbrot(void)
 		while (++y < HEIGHT)
 		{
 			n_iter = check_divergence((t_complex){0, 0},
-					(t_complex){pixel_to_complex(x, min_x, max_x, WIDTH),
-					pixel_to_complex(y, min_y, max_y, HEIGHT)});
+					(t_complex){pixel_to_complex(x, min.r, max.r, WIDTH),
+					pixel_to_complex(y, min.i, max.i, HEIGHT)});
 			if (n_iter == MAX_ITERATIONS)
 				put_pixel(display->img, x, y, 0x000000);
 			else

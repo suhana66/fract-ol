@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:29:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/09 15:44:14 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/11 11:54:33 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv)
 	t_complex	c;
 
 	if (argc == 2 && parse_string(argv[1], "mandelbrot"))
-		return (mandelbrot(), 0);
+		return (mandelbrot((t_complex){-2.25, -1.25}, (t_complex){1, 1.25}), 0);
 	if (argc == 4 && parse_string(argv[1], "julia"))
 	{
 		if (parse_range(argv[2], &c.r, -2, 2)

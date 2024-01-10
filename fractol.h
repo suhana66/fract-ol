@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:47:14 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/09 15:55:43 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/11 13:47:11 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FRACTOL_H
 
 # include <stdbool.h>
+# include <math.h>
 # include "libft.h"
 # include "mlx.h"
 
@@ -53,6 +54,8 @@ typedef struct s_image
 	int		bpp;
 	int		line_length;
 	int		endian;
+	int		width;
+	int		height;
 }			t_image;
 
 typedef struct s_complex
@@ -61,15 +64,17 @@ typedef struct s_complex
 	double	i;
 }	t_complex;
 
-void		mandelbrot(void);
+void		mandelbrot(t_complex min, t_complex max);
 void		julia(t_complex constant);
 
 t_display	*build_display(int width, int height, char *title);
+void		build_image(t_display *display, int width, int height);
 void		exit_program(t_display *display, int exit_code, char *msg);
 void		put_pixel(t_image *img, int x, int y, int color);
 
 double		pixel_to_complex(int pixel, double start, double end, int len);
 int			check_divergence(t_complex z, t_complex c);
+void		closest_size(int *width, int *height, double ratio_x, double ratio_y);
 
 int			key_hook(int key, t_display *display);
 int			exit_hook(t_display *display);

@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:07:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/10 10:53:30 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/11 12:06:41 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,42 @@
 
 t_display	*build_display(int width, int height, char *title)
 {
-	t_image		*img;
 	t_display	*result;
 
 	result = malloc(sizeof(t_display));
-	img = malloc(sizeof(t_image));
-	if (!result || !img)
-		exit_program(result, 1, "a memory allocation error occured\n");
+	if (!result)
+		exit_program(result, 1, NULL);
 	result->mlx = mlx_init();
 	if (!result || !result->mlx)
-		exit_program(result, 2, "can not establish connection to x-server\n");
+		exit_program(result, 2, "could not establish connection to x-server\n");
 	result->win = mlx_new_window(result->mlx, width, height, title);
 	if (!result->win)
-		exit_program(result, 3, "can not create window to display fractal\n");
-	img->image = mlx_new_image(result->win, width, height);
-	if (!img->image)
-		exit_program(result, 4, "can not display fractal on window\n");
-	img->buffer = mlx_get_data_addr(img->image, &img->bpp, &img->line_length,
-			&img->endian);
-	result->img = img;
+		exit_program(result, 3, "could not create window to display fractal\n");
 	mlx_hook(result->win, ON_DESTROY, 0, exit_hook, result);
 	return (result);
 }
 
+void	build_image(t_display *display, int width, int height)
+{
+	t_image	*img;
+
+	if (!display)
+		return ;
+	img = malloc(sizeof(t_image));
+	if (!img)
+		exit_program(display, 1, NULL);
+	img->image = mlx_new_image(display->win, width, height);
+	if (!img->image)
+		exit_program(display, 4, "could not display fractal on window\n");
+	img->buffer = mlx_get_data_addr(img->image, &img->bpp, &img->line_length,
+			&img->endian);
+	display->img = img;
+}
+
 void	exit_program(t_display *display, int exit_code, char *msg)
 {
+	if (exit_code == 1 && msg == NULL)
+		msg = "a memory allocation error occured\n";
 	if (msg)
 		ft_printf(msg);
 	if (!display)
@@ -95,4 +106,12 @@ int	check_divergence(t_complex z, t_complex c)
 		n++;
 	}
 	return (n);
+}
+
+void	closest_size(int *width, int *height, double ratio_x, double ratio_y)
+{
+	(void)width;
+	(void)height;
+	(void)ratio_x;
+	(void)ratio_y;
 }

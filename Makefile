@@ -18,7 +18,7 @@ LIBMLX_LINK := -I$(LIBMLX_PATH) -L$(LIBMLX_PATH) -lmlx -framework OpenGL -framew
 all: $(NAME)
 
 $(NAME): $(SRC) $(LIBFT) $(LIBMLX)
-	$(CC) $(CFLAGS) $(SRC) $(LIBFT_LINK) $(LIBMLX_LINK) -o $@
+	$(CC) $(CFLAGS) $(SRC) -lm $(LIBFT_LINK) $(LIBMLX_LINK) -o $@
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
