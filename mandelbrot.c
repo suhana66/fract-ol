@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:00:12 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/11 12:04:19 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/11 12:32:28 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,9 @@ void	mandelbrot(t_complex min, t_complex max)
 	int			x;
 	int			y;
 	int			n_iter;
-	int			img_width;
-	int			img_height;
 	t_display	*display;
 
-	display = build_display(WIDTH, HEIGHT, "mandelbrot");
-	img_width = WIDTH;
-	img_height = HEIGHT;
-	closest_size(&img_width, &img_height, max.r - min.r, max.i - min.i);
-	build_image(display, img_width, img_height);
+	display = build_display("mandelbrot", max.r - min.r, max.i - min.i);
 	x = -1;
 	while (++x < WIDTH)
 	{

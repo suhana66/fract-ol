@@ -1,9 +1,10 @@
 NAME := fractol
-SRC := hooks.c \
+SRC := fractal_utils.c \
+	hooks.c \
 	julia.c \
 	main.c \
 	mandelbrot.c \
-	utils.c
+	math_utils.c
 CC := cc
 CFLAGS := -Wall -Wextra -Werror -fsanitize=address
 

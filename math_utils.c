@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:18:53 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/11 13:47:43 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/11 13:56:31 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,11 @@ double	pixel_to_complex(int pixel, double start, double end, int len)
 	return (start + (end - start) / len * pixel);
 }
 
-// https://math.stackexchange.com/questions/2711420/how-to-find-the-closest-size-to-but-no-greater-than-w-x-h-by-aspect-ratio
 void	closest_size(int *width, int *height, double ratio_x, double ratio_y)
 {
-	double  temp;
-	double  dividend;
-	double  divisor;
+	double	temp;
+	double	dividend;
+	double	divisor;
 	int		k;
 
 	if (!width || !height)

@@ -6,11 +6,18 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:54:04 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/09 15:00:53 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/11 12:50:33 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+int	mouse_hook(int move, t_display *display)
+{
+	(void)move;
+	(void)display;
+	return (0);
+}
 
 int	key_hook(int key, t_display *display)
 {

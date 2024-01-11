@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:47:14 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/11 13:47:11 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/11 13:50:46 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,17 @@ typedef struct s_complex
 void		mandelbrot(t_complex min, t_complex max);
 void		julia(t_complex constant);
 
-t_display	*build_display(int width, int height, char *title);
+t_display	*build_display(char *title, double x_axis_len, double y_axis_len);
 void		build_image(t_display *display, int width, int height);
 void		exit_program(t_display *display, int exit_code, char *msg);
 void		put_pixel(t_image *img, int x, int y, int color);
 
 double		pixel_to_complex(int pixel, double start, double end, int len);
 int			check_divergence(t_complex z, t_complex c);
-void		closest_size(int *width, int *height, double ratio_x, double ratio_y);
+void		closest_size(int *width, int *height,
+				double ratio_x, double ratio_y);
 
+int			mouse_hook(int move, t_display *display);
 int			key_hook(int key, t_display *display);
 int			exit_hook(t_display *display);
 

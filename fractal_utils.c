@@ -1,55 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   fractal_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:07:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/11 12:06:41 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/11 12:47:37 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-t_display	*build_display(int width, int height, char *title)
+static void	set_hooks(t_display	*display);
+
+t_display	*build_display(char *title, double x_axis_len, double y_axis_len)
 {
 	t_display	*result;
+	int			img_width;
+	int			img_height;
 
 	result = malloc(sizeof(t_display));
-	if (!result)
+	if (result)
+		result->img = malloc(sizeof(t_image));
+	if (!result || !result->img)
 		exit_program(result, 1, NULL);
 	result->mlx = mlx_init();
-	if (!result || !result->mlx)
+	if (!result->mlx)
 		exit_program(result, 2, "could not establish connection to x-server\n");
-	result->win = mlx_new_window(result->mlx, width, height, title);
+	result->win = mlx_new_window(result->mlx, WIDTH, HEIGHT, title);
 	if (!result->win)
 		exit_program(result, 3, "could not create window to display fractal\n");
-	mlx_hook(result->win, ON_DESTROY, 0, exit_hook, result);
+	img_width = WIDTH;
+	img_height = HEIGHT;
+	closest_size(&img_width, &img_height, x_axis_len, y_axis_len);
+	result->img->image = mlx_new_image(result->win, img_width, img_height);
+	if (!result->img->image)
+		exit_program(result, 4, "could not display fractal on window\n");
+	result->img->buffer = mlx_get_data_addr(result->img->image,
+			&result->img->bpp, &result->img->line_length, &result->img->endian);
+	set_hooks(result);
 	return (result);
 }
 
-void	build_image(t_display *display, int width, int height)
+static void	set_hooks(t_display	*display)
 {
-	t_image	*img;
-
-	if (!display)
+	if (!display || !display->win)
 		return ;
-	img = malloc(sizeof(t_image));
-	if (!img)
-		exit_program(display, 1, NULL);
-	img->image = mlx_new_image(display->win, width, height);
-	if (!img->image)
-		exit_program(display, 4, "could not display fractal on window\n");
-	img->buffer = mlx_get_data_addr(img->image, &img->bpp, &img->line_length,
-			&img->endian);
-	display->img = img;
+	mlx_hook(display->win, ON_DESTROY, 0, exit_hook, display);
+	mlx_key_hook(display->win, key_hook, display);
+	mlx_mouse_hook(display->win, mouse_hook, display);
 }
 
 void	exit_program(t_display *display, int exit_code, char *msg)
 {
 	if (exit_code == 1 && msg == NULL)
-		msg = "a memory allocation error occured\n";
+		msg = "a memory allocation error occurred\n";
 	if (msg)
 		ft_printf(msg);
 	if (!display)
@@ -73,45 +79,4 @@ void	put_pixel(t_image *img, int x, int y, int color)
 		return ;
 	pixel = img->buffer + (y * img->line_length + x * (img->bpp / 8));
 	*(unsigned int *)pixel = color;
-}
-
-double	pixel_to_complex(int pixel, double start, double end, int len)
-{
-	return (start + (end - start) / len * pixel);
-}
-
-/*
-	Complex number formulas
-	-----------------------
-	1)	Multiplication of complex numbers
-		(a + bi)(c + di) = (ac - bd) + i(ad + bc)
-	2)	(a + bi)^2
-		=> (a + bi)(a + bi)
-		=> (a^2 - b^2) + i(ab + ab)
-		=> a^2 - b^2 + 2ab(i)
-	3)	Absolute value of complex number
-		=> c = a + bi, |c|^2 = a^2 + b^2
-*/
-int	check_divergence(t_complex z, t_complex c)
-{
-	int			n;
-	double		temp;
-
-	n = 0;
-	while (z.r * z.r + z.i * z.i <= 4 && n < MAX_ITERATIONS)
-	{
-		temp = z.r * z.r - z.i * z.i + c.r;
-		z.i = 2 * z.r * z.i + c.i;
-		z.r = temp;
-		n++;
-	}
-	return (n);
-}
-
-void	closest_size(int *width, int *height, double ratio_x, double ratio_y)
-{
-	(void)width;
-	(void)height;
-	(void)ratio_x;
-	(void)ratio_y;
 }
