@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:29:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/11 11:54:33 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/12 08:06:24 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,15 @@ static int	parse_range(char *str, double *result, double r_min, double r_max);
 
 int	main(int argc, char **argv)
 {
+	int			width;
+	int			height;
 	t_complex	c;
 
+	width = 800;
+	height = 600;
 	if (argc == 2 && parse_string(argv[1], "mandelbrot"))
-		return (mandelbrot((t_complex){-2.25, -1.25}, (t_complex){1, 1.25}), 0);
+		return (mandelbrot(width, height,
+				(t_complex){-2.25, -1.25}, (t_complex){1, 1.25}), 0);
 	if (argc == 4 && parse_string(argv[1], "julia"))
 	{
 		if (parse_range(argv[2], &c.r, -2, 2)

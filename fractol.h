@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:47:14 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/11 13:50:46 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/12 08:10:07 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include "libft.h"
 # include "mlx.h"
 
-# define WIDTH 800
-# define HEIGHT 600
 # define MAX_ITERATIONS 100
 
 // events
@@ -45,6 +43,8 @@ typedef struct s_display
 	void			*mlx;
 	void			*win;
 	struct s_image	*img;
+	int				width;
+	int				height;
 }	t_display;
 
 typedef struct s_image
@@ -64,10 +64,10 @@ typedef struct s_complex
 	double	i;
 }	t_complex;
 
-void		mandelbrot(t_complex min, t_complex max);
+void		mandelbrot(int width, int height, t_complex min, t_complex max);
 void		julia(t_complex constant);
 
-t_display	*build_display(char *title, double x_axis_len, double y_axis_len);
+t_display	*build_display(int width, int height, char *title, t_complex limit);
 void		build_image(t_display *display, int width, int height);
 void		exit_program(t_display *display, int exit_code, char *msg);
 void		put_pixel(t_image *img, int x, int y, int color);

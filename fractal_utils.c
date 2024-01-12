@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:07:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/11 12:47:37 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/12 08:07:45 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,33 @@
 
 static void	set_hooks(t_display	*display);
 
-t_display	*build_display(char *title, double x_axis_len, double y_axis_len)
+t_display	*build_display(int width, int height, char *title, t_complex limit)
 {
-	t_display	*result;
-	int			img_width;
-	int			img_height;
+	t_display	*res;
 
-	result = malloc(sizeof(t_display));
-	if (result)
-		result->img = malloc(sizeof(t_image));
-	if (!result || !result->img)
-		exit_program(result, 1, NULL);
-	result->mlx = mlx_init();
-	if (!result->mlx)
-		exit_program(result, 2, "could not establish connection to x-server\n");
-	result->win = mlx_new_window(result->mlx, WIDTH, HEIGHT, title);
-	if (!result->win)
-		exit_program(result, 3, "could not create window to display fractal\n");
-	img_width = WIDTH;
-	img_height = HEIGHT;
-	closest_size(&img_width, &img_height, x_axis_len, y_axis_len);
-	result->img->image = mlx_new_image(result->win, img_width, img_height);
-	if (!result->img->image)
-		exit_program(result, 4, "could not display fractal on window\n");
-	result->img->buffer = mlx_get_data_addr(result->img->image,
-			&result->img->bpp, &result->img->line_length, &result->img->endian);
-	set_hooks(result);
-	return (result);
+	res = malloc(sizeof(t_display));
+	if (res)
+		res->img = malloc(sizeof(t_image));
+	if (!res || !res->img)
+		exit_program(res, 1, NULL);
+	res->mlx = mlx_init();
+	if (!res->mlx)
+		exit_program(res, 2, "could not establish connection to x-server\n");
+	res->win = mlx_new_window(res->mlx, width, height, title);
+	if (!res->win)
+		exit_program(res, 3, "could not create window to display fractal\n");
+	res->width = width;
+	res->height = height;
+	res->img->width = res->width;
+	res->img->height = res->height;
+	closest_size(&res->img->width, &res->img->height, limit.r, limit.i);
+	res->img->image = mlx_new_image(res->win, res->img->width, res->img->width);
+	if (!res->img->image)
+		exit_program(res, 4, "could not display fractal on window\n");
+	res->img->buffer = mlx_get_data_addr(res->img->image,
+			&res->img->bpp, &res->img->line_length, &res->img->endian);
+	set_hooks(res);
+	return (res);
 }
 
 static void	set_hooks(t_display	*display)
