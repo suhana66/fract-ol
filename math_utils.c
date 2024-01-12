@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:18:53 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/11 13:56:31 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/12 13:06:10 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,15 @@
 		=> a^2 - b^2 + 2ab(i)
 	3)	Absolute value of complex number
 		=> c = a + bi, |c|^2 = a^2 + b^2
+		=> |c| = √(a^2 + b^2)
 */
-int	check_divergence(t_complex z, t_complex c)
+int	get_divergence(t_complex z, t_complex c)
 {
 	int			n;
 	double		temp;
 
 	n = 0;
-	while (z.r * z.r + z.i * z.i <= 4 && n < MAX_ITERATIONS)
+	while (sqrt(z.r * z.r + z.i * z.i) <= 2 && n < MAX_ITERATIONS)
 	{
 		temp = z.r * z.r - z.i * z.i + c.r;
 		z.i = 2 * z.r * z.i + c.i;

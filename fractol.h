@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:47:14 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/12 08:10:07 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/12 10:43:00 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ typedef struct s_image
 	int		bpp;
 	int		line_length;
 	int		endian;
-	int		width;
-	int		height;
 }			t_image;
 
 typedef struct s_complex
@@ -64,21 +62,22 @@ typedef struct s_complex
 	double	i;
 }	t_complex;
 
-void		mandelbrot(int width, int height, t_complex min, t_complex max);
-void		julia(t_complex constant);
+void			mandelbrot(int width, int height, t_complex min, t_complex max);
+void			julia(t_complex constant);
 
-t_display	*build_display(int width, int height, char *title, t_complex limit);
-void		build_image(t_display *display, int width, int height);
-void		exit_program(t_display *display, int exit_code, char *msg);
-void		put_pixel(t_image *img, int x, int y, int color);
+t_display		*build_display(int max_w, int max_h, char *title,
+					t_complex limit);
+void			exit_program(t_display *display, int exit_code, char *msg);
+void			put_pixel(t_image *img, int x, int y, int color);
+unsigned int	get_color(int n_iter);
 
-double		pixel_to_complex(int pixel, double start, double end, int len);
-int			check_divergence(t_complex z, t_complex c);
-void		closest_size(int *width, int *height,
-				double ratio_x, double ratio_y);
+double			pixel_to_complex(int pixel, double start, double end, int len);
+int				get_divergence(t_complex z, t_complex c);
+void			closest_size(int *width, int *height,
+					double ratio_x, double ratio_y);
 
-int			mouse_hook(int move, t_display *display);
-int			key_hook(int key, t_display *display);
-int			exit_hook(t_display *display);
+int				mouse_hook(int move, t_display *display);
+int				key_hook(int key, t_display *display);
+int				exit_hook(t_display *display);
 
 #endif /* FRACTOL_H */
