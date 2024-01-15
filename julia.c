@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:00:12 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/15 14:50:59 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/15 16:33:32 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void	julia(t_pixel max_size, t_complex min, t_complex max, t_complex c)
 	t_pixel		pixel;
 	t_display	*display;
 
-	display = build_display(max_size, "julia",
-			(t_complex){max.r - min.r, max.i - min.i});
+	display = build_display(max_size, "julia", min, max);
 	pixel.x = -1;
 	while (++pixel.x < display->size.x)
 	{
@@ -28,7 +27,8 @@ void	julia(t_pixel max_size, t_complex min, t_complex max, t_complex c)
 		{
 			put_pixel(display->img, pixel, get_color(
 					get_divergence(
-						pixel_to_complex(pixel, min, max, display->size), c)));
+						pixel_to_complex(pixel, display->min, display->max,
+							display->size), c)));
 		}
 	}
 	mlx_put_image_to_window(display->mlx, display->win,

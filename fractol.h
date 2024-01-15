@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/29 11:47:14 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/15 15:02:08 by susajid          ###   ########.fr       */
+/*   Created: 2024/01/15 15:09:07 by susajid           #+#    #+#             */
+/*   Updated: 2024/01/16 13:59:40 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 # define MAX_ITERATIONS 100
 
-// events
+// general events
 enum
 {
 	ON_KEYDOWN = 2,
@@ -32,10 +32,20 @@ enum
 	ON_DESTROY = 17
 };
 
-// keys
+// key events
 enum
 {
-	KEY_ESC = 65307
+	KEY_ESC = 53
+};
+
+// mouse events
+enum
+{
+	LEFT_CLICK = 1,
+	RIGHT_CLICK = 2,
+	MIDDLE_CLICK = 3,
+	SCROLL_UP = 4,
+	SCROLL_DOWN = 5
 };
 
 typedef struct s_pixel
@@ -50,14 +60,6 @@ typedef struct s_complex
 	double	i;
 }	t_complex;
 
-typedef struct s_display
-{
-	void			*mlx;
-	void			*win;
-	struct s_image	*img;
-	struct s_pixel	size;
-}	t_display;
-
 typedef struct s_image
 {
 	void	*image;
@@ -65,13 +67,25 @@ typedef struct s_image
 	int		bpp;
 	int		line_length;
 	int		endian;
-}			t_image;
+}	t_image;
+
+typedef struct s_display
+{
+	void		*mlx;
+	void		*win;
+	t_image		*img;
+	t_pixel		size;
+	t_complex	min;
+	t_complex	max;
+}	t_display;
 
 void			mandelbrot(t_pixel max_size, t_complex min, t_complex max);
 void			julia(t_pixel max_size, t_complex min, t_complex max,
 					t_complex constant);
 
-t_display		*build_display(t_pixel max_size, char *title, t_complex limit);
+t_display		*build_display(t_pixel max_size, char *title,
+					t_complex min, t_complex max);
+void			set_hooks(t_display	*display);
 void			exit_program(t_display *display, int exit_code, char *msg);
 void			put_pixel(t_image *img, t_pixel pixel, int color);
 unsigned int	get_color(int n_iter);
@@ -81,9 +95,5 @@ t_complex		pixel_to_complex(t_pixel pixel, t_complex min, t_complex max,
 int				get_divergence(t_complex z, t_complex c);
 void			closest_size(int *width, int *height,
 					double ratio_x, double ratio_y);
-
-int				mouse_hook(int move, t_display *display);
-int				key_hook(int key, t_display *display);
-int				exit_hook(t_display *display);
 
 #endif /* FRACTOL_H */

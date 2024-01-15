@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:07:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/15 14:50:00 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/15 16:25:34 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,20 @@
 		----- = -------------
 		height	max_y - min_y
 */
-t_display	*build_display(t_pixel max_size, char *title, t_complex limit)
+t_display	*build_display(t_pixel max_size, char *title,
+				t_complex min, t_complex max)
 {
 	t_display	*res;
 
-	closest_size(&max_size.x, &max_size.y, limit.r, limit.i);
+	closest_size(&max_size.x, &max_size.y, max.r - min.r, max.i - min.i);
 	res = malloc(sizeof(t_display));
 	if (res)
 		res->img = malloc(sizeof(t_image));
 	if (!res || !res->img)
 		exit_program(res, 1, NULL);
 	res->size = max_size;
+	res->min = min;
+	res->max = max;
 	res->mlx = mlx_init();
 	if (!res->mlx)
 		exit_program(res, 2, "could not establish connection to x-server\n");
@@ -42,9 +45,7 @@ t_display	*build_display(t_pixel max_size, char *title, t_complex limit)
 		exit_program(res, 4, "could not display fractal on window\n");
 	res->img->buffer = mlx_get_data_addr(res->img->image,
 			&res->img->bpp, &res->img->line_length, &res->img->endian);
-	mlx_hook(res->win, ON_DESTROY, 0, exit_hook, res);
-	mlx_key_hook(res->win, key_hook, res);
-	mlx_mouse_hook(res->win, mouse_hook, res);
+	set_hooks(res);
 	return (res);
 }
 
