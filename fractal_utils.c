@@ -6,31 +6,30 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:07:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/12 15:48:11 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/15 10:34:02 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-t_display	*build_display(int max_w, int max_h, char *title, t_complex limit)
+t_display	*build_display(t_pixel max_size, char *title, t_complex limit)
 {
 	t_display	*res;
 
-	closest_size(&max_w, &max_h, limit.r, limit.i);
+	closest_size(&max_size.x, &max_size.y, limit.r, limit.i);
 	res = malloc(sizeof(t_display));
 	if (res)
 		res->img = malloc(sizeof(t_image));
 	if (!res || !res->img)
 		exit_program(res, 1, NULL);
+	res->size = max_size;
 	res->mlx = mlx_init();
 	if (!res->mlx)
 		exit_program(res, 2, "could not establish connection to x-server\n");
-	res->win = mlx_new_window(res->mlx, max_w, max_h, title);
+	res->win = mlx_new_window(res->mlx, max_size.x, max_size.y, title);
 	if (!res->win)
 		exit_program(res, 3, "could not create window to display fractal\n");
-	res->width = max_w;
-	res->height = max_h;
-	res->img->image = mlx_new_image(res->win, res->width, res->height);
+	res->img->image = mlx_new_image(res->win, res->size.x, res->size.y);
 	if (!res->img->image)
 		exit_program(res, 4, "could not display fractal on window\n");
 	res->img->buffer = mlx_get_data_addr(res->img->image,
@@ -60,17 +59,17 @@ void	exit_program(t_display *display, int exit_code, char *msg)
 	exit(exit_code);
 }
 
-void	put_pixel(t_image *img, int x, int y, int color)
+void	put_pixel(t_image *img, t_pixel pixel, int color)
 {
-	char	*pixel;
+	char	*add;
 
 	if (!img)
 		return ;
-	pixel = img->buffer + (y * img->line_length + x * (img->bpp / 8));
-	*(unsigned int *)pixel = color;
+	add = img->buffer + (pixel.y * img->line_length + pixel.x * (img->bpp / 8));
+	*(unsigned int *)add = color;
 }
 
 unsigned int	get_color(int n_iter)
 {
-	return (0xFFFFFF - (n_iter * pow(16, 6) - 1) / MAX_ITERATIONS);
+	return (0xFFFFFF - (n_iter * 0xFFFFFF) / MAX_ITERATIONS);
 }

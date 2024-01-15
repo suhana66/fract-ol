@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:29:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/12 13:12:12 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/15 10:33:02 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,12 @@ static int	parse_range(char *str, double *result, double r_min, double r_max);
 
 int	main(int argc, char **argv)
 {
-	int			width;
-	int			height;
+	t_pixel		max_size;
 	t_complex	c;
 
-	width = 800;
-	height = 600;
+	max_size = (t_pixel){800, 600};
 	if (argc == 2 && parse_string(argv[1], "mandelbrot"))
-		return (mandelbrot(width, height,
+		return (mandelbrot(max_size,
 				(t_complex){-2, -1.5}, (t_complex){1, 1.5}), 0);
 	if (argc == 4 && parse_string(argv[1], "julia"))
 	{
@@ -32,7 +30,7 @@ int	main(int argc, char **argv)
 			|| parse_range(argv[3], &c.i, -2, 2))
 			exit_program(NULL, 2, "an invalid constant was given for julia "
 				"fractal, a and b in a + bi must be in the range [-2, 2]\n");
-		return (julia(c), 0);
+		return (julia(max_size, (t_complex){-2, -2}, (t_complex){2, 2}, c), 0);
 	}
 	exit_program(NULL, 3, "usage: ./fractol <fractal> [a] [b]\n"
 		" fractals: mandelbrot, julia\n"

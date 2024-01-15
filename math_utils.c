@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:18:53 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/12 13:06:10 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/15 10:40:40 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,13 @@ int	get_divergence(t_complex z, t_complex c)
 	return (n);
 }
 
-double	pixel_to_complex(int pixel, double start, double end, int len)
+t_complex	pixel_to_complex(t_pixel pixel, t_complex min, t_complex max,
+							t_pixel len)
 {
-	return (start + (end - start) / len * pixel);
+	return ((t_complex){
+		min.r + (max.r - min.r) / len.x * pixel.x,
+		min.i + (max.i - min.i) / len.y * pixel.y
+	});
 }
 
 void	closest_size(int *width, int *height, double ratio_x, double ratio_y)

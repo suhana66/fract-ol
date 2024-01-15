@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:00:12 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/12 10:37:47 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/15 10:36:10 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,22 @@
 		----- = -------------
 		height	max_y - min_y
 */
-void	mandelbrot(int max_width, int max_height, t_complex min, t_complex max)
+void	mandelbrot(t_pixel max_size, t_complex min, t_complex max)
 {
-	int			x;
-	int			y;
+	t_pixel		pixel;
 	t_display	*display;
 
-	display = build_display(max_width, max_height, "mandelbrot",
+	display = build_display(max_size, "mandelbrot",
 			(t_complex){max.r - min.r, max.i - min.i});
-	x = -1;
-	while (++x < display->width)
+	pixel.x = -1;
+	while (++pixel.x < display->size.x)
 	{
-		y = -1;
-		while (++y < display->height)
+		pixel.y = -1;
+		while (++pixel.y < display->size.y)
 		{
-			put_pixel(display->img, x, y, get_color(
-					get_divergence((t_complex){0, 0}, (t_complex){
-						pixel_to_complex(x, min.r, max.r, display->width),
-						pixel_to_complex(y, min.i, max.i, display->height)
-					})));
+			put_pixel(display->img, pixel, get_color(
+					get_divergence((t_complex){0, 0},
+						pixel_to_complex(pixel, min, max, display->size))));
 		}
 	}
 	mlx_put_image_to_window(display->mlx, display->win,

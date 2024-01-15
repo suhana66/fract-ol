@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:47:14 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/12 10:43:00 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/15 10:42:22 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,24 @@ enum
 	KEY_ESC = 65307
 };
 
+typedef struct s_pixel
+{
+	int	x;
+	int	y;
+}	t_pixel;
+
+typedef struct s_complex
+{
+	double	r;
+	double	i;
+}	t_complex;
+
 typedef struct s_display
 {
 	void			*mlx;
 	void			*win;
 	struct s_image	*img;
-	int				width;
-	int				height;
+	struct s_pixel	size;
 }	t_display;
 
 typedef struct s_image
@@ -56,22 +67,17 @@ typedef struct s_image
 	int		endian;
 }			t_image;
 
-typedef struct s_complex
-{
-	double	r;
-	double	i;
-}	t_complex;
+void			mandelbrot(t_pixel max_size, t_complex min, t_complex max);
+void			julia(t_pixel max_size, t_complex min, t_complex max,
+					t_complex constant);
 
-void			mandelbrot(int width, int height, t_complex min, t_complex max);
-void			julia(t_complex constant);
-
-t_display		*build_display(int max_w, int max_h, char *title,
-					t_complex limit);
+t_display		*build_display(t_pixel max_size, char *title, t_complex limit);
 void			exit_program(t_display *display, int exit_code, char *msg);
-void			put_pixel(t_image *img, int x, int y, int color);
+void			put_pixel(t_image *img, t_pixel pixel, int color);
 unsigned int	get_color(int n_iter);
 
-double			pixel_to_complex(int pixel, double start, double end, int len);
+t_complex		pixel_to_complex(t_pixel pixel, t_complex min, t_complex max,
+					t_pixel len);
 int				get_divergence(t_complex z, t_complex c);
 void			closest_size(int *width, int *height,
 					double ratio_x, double ratio_y);
