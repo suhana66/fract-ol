@@ -6,22 +6,13 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:00:12 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/15 10:36:10 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/15 13:16:39 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-/*
-	(x, y) denotes the pixel in the window
-
-	Requirement to prevent fractal distortion
-	-----------------------------------------
-	=>	ASPECT RATIO
-	=>	width	max_x - min_x
-		----- = -------------
-		height	max_y - min_y
-*/
+// Z0 remains constant (Z0 = 0), C varies, in Zn+1 = (Zn)^2 + C
 void	mandelbrot(t_pixel max_size, t_complex min, t_complex max)
 {
 	t_pixel		pixel;
