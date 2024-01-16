@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:09:07 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/16 13:59:40 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/16 15:44:00 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include "libft.h"
 # include "mlx.h"
 
+# define MAX_WIDTH 1250
+# define MAX_HEIGHT 1250
 # define MAX_ITERATIONS 100
 
 // general events
@@ -77,14 +79,15 @@ typedef struct s_display
 	t_pixel		size;
 	t_complex	min;
 	t_complex	max;
+	void		*var;
+	void		(*render)(struct s_display *);
 }	t_display;
 
-void			mandelbrot(t_pixel max_size, t_complex min, t_complex max);
-void			julia(t_pixel max_size, t_complex min, t_complex max,
-					t_complex constant);
+void			mandelbrot(t_display *display);
+void			julia(t_display	*display);
 
-t_display		*build_display(t_pixel max_size, char *title,
-					t_complex min, t_complex max);
+t_display		*build_display(char *title, t_complex limits[2],
+					void (*render)(struct s_display *), void *var);
 void			set_hooks(t_display	*display);
 void			exit_program(t_display *display, int exit_code, char *msg);
 void			put_pixel(t_image *img, t_pixel pixel, int color);

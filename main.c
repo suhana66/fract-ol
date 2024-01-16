@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:29:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/15 15:02:24 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/16 16:20:59 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,74 @@ static int	parse_range(char *str, double *result, double r_min, double r_max);
 
 int	main(int argc, char **argv)
 {
-	t_pixel		max_size;
 	t_complex	c;
-	t_complex	c_min;
-	t_complex	c_max;
+	t_complex	limits[2];
+	t_display	*display;
 
-	max_size = (t_pixel){1250, 1250};
+	display = NULL;
 	if (argc == 2 && parse_string(argv[1], "mandelbrot"))
-		return (mandelbrot(max_size,
-				(t_complex){-2, -1.5}, (t_complex){1, 1.5}), 0);
-	if (argc == 4 && parse_string(argv[1], "julia"))
 	{
-		c_min = (t_complex){-2, -2};
-		c_max = (t_complex){2, 2};
-		if (parse_range(argv[2], &c.r, c_min.r, c_max.r)
-			|| parse_range(argv[3], &c.i, c_min.i, c_max.i))
-			exit_program(NULL, 2, "an invalid constant was given for julia "
-				"fractal, a and b in a + bi must be in the range [-2, 2]\n");
-		return (julia(max_size, c_min, c_max, c), 0);
+		limits[0] = (t_complex){-2, -1.5};
+		limits[1] = (t_complex){1, 1.5};
+		display = build_display("mandelbrot", limits, mandelbrot, NULL);
 	}
-	exit_program(NULL, 3, "usage: ./fractol <fractal> [a] [b]\n"
-		" fractals: mandelbrot, julia\n"
-		" constant: [a] [b]\n"
-		"   the julia fractal requires a constant complex number in the"
-		" form a + bi, where a and b are decimal numbers\n");
+	else if (argc == 4 && parse_string(argv[1], "julia"))
+	{
+		limits[0] = (t_complex){-2, -2};
+		limits[1] = (t_complex){2, 2};
+		if (parse_range(argv[2], &c.r, limits[0].r, limits[1].r)
+			|| parse_range(argv[3], &c.i, limits[0].i, limits[1].i))
+			exit_program(NULL, 2, "invalid constant; a + bi in range [-2,2]\n");
+		display = build_display("julia", limits, julia, &c);
+	}
+	if (!display)
+		exit_program(NULL, 3, "usage: ./fractol <fractal> [a] [b]\n fractals: "
+			"julia, mandelbrot\n > for julia, input complex number (a + bi)\n");
+	mlx_loop(display->mlx);
+}
+
+// Z0 remains constant (Z0 = 0), C varies, in Zn+1 = (Zn)^2 + C
+void	mandelbrot(t_display *display)
+{
+	t_pixel		pixel;
+
+	pixel.x = -1;
+	while (++pixel.x < display->size.x)
+	{
+		pixel.y = -1;
+		while (++pixel.y < display->size.y)
+		{
+			put_pixel(display->img, pixel, get_color(
+					get_divergence((t_complex){0, 0},
+						pixel_to_complex(pixel, display->min, display->max,
+							display->size))));
+		}
+	}
+	mlx_put_image_to_window(display->mlx, display->win,
+		display->img->image, 0, 0);
+}
+
+// Z0 varies, C remains constant, in Zn+1 = (Zn)^2 + C
+void	julia(t_display	*display)
+{
+	t_pixel		pixel;
+
+	if (!display->var)
+		return ;
+	pixel.x = -1;
+	while (++pixel.x < display->size.x)
+	{
+		pixel.y = -1;
+		while (++pixel.y < display->size.y)
+		{
+			put_pixel(display->img, pixel, get_color(
+					get_divergence(
+						pixel_to_complex(pixel, display->min, display->max,
+							display->size), *(t_complex *)display->var)));
+		}
+	}
+	mlx_put_image_to_window(display->mlx, display->win,
+		display->img->image, 0, 0);
 }
 
 static bool	parse_string(char *str, char *model)

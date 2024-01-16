@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:54:04 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/16 13:22:00 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/16 15:40:03 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static int	exit_hook(t_display *display)
 
 static void	zoom(t_display *display, double zoom)
 {
-	t_complex center;
-	t_complex len;
+	t_complex	center;
+	t_complex	len;
 
 	if (!display)
 		return ;
@@ -66,4 +66,5 @@ static void	zoom(t_display *display, double zoom)
 	display->max.r = center.r + len.r / 2;
 	display->min.i = center.i - len.i / 2;
 	display->max.i = center.i + len.i / 2;
+	display->render(display);
 }
