@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:29:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/17 13:10:19 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/17 12:31:28 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "fractol_bonus.h"
 
 static bool	parse_string(char *str, char *model);
 static int	parse_range(char *str, double *result, double r_min, double r_max);
@@ -41,7 +41,6 @@ int	main(int argc, char **argv)
 		exit_program(NULL, 3, "usage: ./fractol <fractal> [a] [b]\n fractals: "
 			"julia, mandelbrot\n > for julia, input complex number (a + bi)\n");
 	mlx_loop(display->mlx);
-    return (0);
 }
 
 // Z0 remains constant (Z0 = 0), C varies, in Zn+1 = (Zn)^2 + C

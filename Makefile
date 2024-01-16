@@ -3,21 +3,33 @@ SRC := fractal_utils.c \
 	hooks.c \
 	main.c \
 	math_utils.c
+OBJ := $(SRC:.c=.o)
+SRC_BONUS := fractal_utils_bonus.c \
+	hooks_bonus.c \
+	main_bonus.c \
+	math_utils_bonus.c
+OBJ_BONUS := $(SRC_BONUS:.c=.o)
 CC := cc
-CFLAGS := -Wall -Wextra -Werror -fsanitize=address
+CFLAGS := -Wall -Wextra -Werror
 
 LIBFT_PATH := libft
 LIBFT := $(LIBFT_PATH)/libft.a
-LIBFT_LINK := -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
+LIBFT_LINK := -L$(LIBFT_PATH) -lft
 
 LIBMLX_PATH := libmlx
 LIBMLX := $(LIBMLX_PATH)/libmlx.a
-LIBMLX_LINK := -I$(LIBMLX_PATH) -L$(LIBMLX_PATH) -lmlx -framework OpenGL -framework AppKit
+LIBMLX_LINK := -L$(LIBMLX_PATH) -lmlx -framework OpenGL -framework AppKit
 
 all: $(NAME)
 
-$(NAME): $(SRC) $(LIBFT) $(LIBMLX)
-	$(CC) $(CFLAGS) $(SRC) -lm $(LIBFT_LINK) $(LIBMLX_LINK) -o $@
+$(NAME): $(OBJ) $(LIBFT) $(LIBMLX)
+	$(CC) $(CFLAGS) $(OBJ) -lm $(LIBFT_LINK) $(LIBMLX_LINK) -o $@
+
+bonus: $(OBJ_BONUS) $(LIBFT) $(LIBMLX)
+	$(CC) $(CFLAGS) $(OBJ_BONUS) -lm $(LIBFT_LINK) $(LIBMLX_LINK) $< -o $(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -I$(LIBMLX_PATH) -I$(LIBFT_PATH) -c $< -o $@
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
@@ -26,13 +38,14 @@ $(LIBMLX):
 	make -C $(LIBMLX_PATH)
 
 clean:
-	make clean -C $(LIBMLX_PATH)
 	make clean -C $(LIBFT_PATH)
+	rm -f $(OBJ)
 
 fclean: clean
+	make clean -C $(LIBMLX_PATH)
 	make fclean -C $(LIBFT_PATH)
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean bonus re
