@@ -1,16 +1,19 @@
 NAME := fractol
-SRC := fractal_utils.c \
-	hooks.c \
-	main.c \
-	math_utils.c
-OBJ := $(SRC:.c=.o)
-SRC_BONUS := fractal_utils_bonus.c \
-	hooks_bonus.c \
-	main_bonus.c \
-	math_utils_bonus.c
-OBJ_BONUS := $(SRC_BONUS:.c=.o)
 CC := cc
 CFLAGS := -Wall -Wextra -Werror
+
+SRC := mandatory/fractal_utils.c \
+	mandatory/hooks.c \
+	mandatory/main.c \
+	mandatory/math_utils.c
+OBJ := $(SRC:.c=.o)
+
+SRC_BONUS_DIR := bonus
+SRC_BONUS := bonus/fractal_utils_bonus.c \
+	bonus/hooks_bonus.c \
+	bonus/main_bonus.c \
+	bonus/math_utils_bonus.c
+OBJ_BONUS := $(SRC_BONUS:.c=.o)
 
 LIBFT_PATH := libft
 LIBFT := $(LIBFT_PATH)/libft.a
@@ -26,7 +29,7 @@ $(NAME): $(OBJ) $(LIBFT) $(LIBMLX)
 	$(CC) $(CFLAGS) $(OBJ) -lm $(LIBFT_LINK) $(LIBMLX_LINK) -o $@
 
 bonus: $(OBJ_BONUS) $(LIBFT) $(LIBMLX)
-	$(CC) $(CFLAGS) $(OBJ_BONUS) -lm $(LIBFT_LINK) $(LIBMLX_LINK) $< -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ_BONUS) -lm $(LIBFT_LINK) $(LIBMLX_LINK) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -I$(LIBMLX_PATH) -I$(LIBFT_PATH) -c $< -o $@
@@ -40,6 +43,7 @@ $(LIBMLX):
 clean:
 	make clean -C $(LIBFT_PATH)
 	rm -f $(OBJ)
+	rm -f $(OBJ_BONUS)
 
 fclean: clean
 	make clean -C $(LIBMLX_PATH)

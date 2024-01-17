@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:29:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/17 12:31:28 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/18 10:18:24 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int argc, char **argv)
 		exit_program(NULL, 3, "usage: ./fractol <fractal> [a] [b]\n fractals: "
 			"julia, mandelbrot\n > for julia, input complex number (a + bi)\n");
 	mlx_loop(display->mlx);
+	return (0);
 }
 
 // Z0 remains constant (Z0 = 0), C varies, in Zn+1 = (Zn)^2 + C
@@ -48,18 +49,18 @@ void	mandelbrot(t_display *display)
 {
 	t_pixel		pixel;
 
-    if (!display)
-        return ;
+	if (!display)
+		return ;
 	pixel.x = -1;
 	while (++pixel.x < display->size.x)
 	{
 		pixel.y = -1;
 		while (++pixel.y < display->size.y)
 		{
-			put_pixel(display->img, pixel, mlx_get_color_value(display->mlx, get_color(
+			put_pixel(display->img, pixel, get_color(
 					get_divergence((t_complex){0, 0},
 						pixel_to_complex(pixel, display->min, display->max,
-							display->size)))));
+							display->size))));
 		}
 	}
 	mlx_put_image_to_window(display->mlx, display->win,
@@ -79,10 +80,10 @@ void	julia(t_display	*display)
 		pixel.y = -1;
 		while (++pixel.y < display->size.y)
 		{
-			put_pixel(display->img, pixel, mlx_get_color_value(display->mlx, get_color(
+			put_pixel(display->img, pixel, get_color(
 					get_divergence(
 						pixel_to_complex(pixel, display->min, display->max,
-							display->size), *(t_complex *)display->var))));
+							display->size), *(t_complex *)display->var)));
 		}
 	}
 	mlx_put_image_to_window(display->mlx, display->win,

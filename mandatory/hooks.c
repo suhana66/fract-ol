@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:54:04 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/17 12:23:13 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/17 13:32:25 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	key_hook(int key, t_display *display)
 
 static int	exit_hook(t_display *display)
 {
-    exit_program(display, 0, "exited\n");
+	exit_program(display, 0, "exited\n");
 	return (0);
 }
 
