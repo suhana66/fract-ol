@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:09:07 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/17 09:46:06 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/19 10:30:47 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FRACTOL_BONUS_H
 
 # include <stdbool.h>
-# include <math.h>
 # include "libft.h"
 # include "mlx.h"
 

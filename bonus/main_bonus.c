@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:29:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/18 10:18:24 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/19 10:57:02 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,13 @@ static int	parse_range(char *str, double *result, double r_min, double r_max)
 	sign = 1;
 	if (str && (*str == '-' || *str == '+') && str++ && (*(str - 1) == '-'))
 		sign = -1;
-	if (!str || !result)
+	if (!str || !result || (!ft_isdigit(*str) && *str != '.'))
 		return (1);
 	*result = 0;
 	while (ft_isdigit(*str) && *result >= r_min && *result <= r_max)
 		*result = *result * 10.0 + (*str++ - '0') * sign;
-	if (*str == '.' && str++ && *result == 0 && !ft_isdigit(*str))
+	if (*str == '.' && str++ && !(!*str && ft_isdigit(*(str - 2)))
+		&& !(*str && ft_isdigit(*str)))
 		return (2);
 	while (ft_isdigit(*str) && *result >= r_min && *result <= r_max)
 	{
@@ -133,6 +134,6 @@ static int	parse_range(char *str, double *result, double r_min, double r_max)
 	while (ft_isspace(*str))
 		str++;
 	if (*str || *result < r_min || *result > r_max)
-		return (2);
+		return (3);
 	return (0);
 }

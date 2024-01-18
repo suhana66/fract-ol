@@ -6,7 +6,7 @@
 /*   By: susajid <susajid@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 11:07:01 by susajid           #+#    #+#             */
-/*   Updated: 2024/01/16 17:05:55 by susajid          ###   ########.fr       */
+/*   Updated: 2024/01/18 14:07:28 by susajid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_display	*build_display(char *title, t_complex limits[2],
 	res->win = mlx_new_window(res->mlx, res->size.x, res->size.y, title);
 	if (!res->win)
 		exit_program(res, 3, "could not create window to display fractal\n");
-	res->img = build_image(res->win, res->size.x, res->size.y);
+	res->img = build_image(res->mlx, res->size.x, res->size.y);
 	if (!res->img)
 		exit_program(res, 4, "could not display fractal on window\n");
 	set_hooks(res);
@@ -51,14 +51,14 @@ t_display	*build_display(char *title, t_complex limits[2],
 	return (res);
 }
 
-static t_image	*build_image(void *win, int width, int height)
+static t_image	*build_image(void *mlx, int width, int height)
 {
 	t_image	*result;
 
 	result = malloc(sizeof(t_image));
 	if (!result)
 		return (NULL);
-	result->image = mlx_new_image(win, width, height);
+	result->image = mlx_new_image(mlx, width, height);
 	if (!result->image)
 		return (free(result), NULL);
 	result->buffer = mlx_get_data_addr(result->image, &result->bpp,

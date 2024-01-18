@@ -8,7 +8,6 @@ SRC := mandatory/fractal_utils.c \
 	mandatory/math_utils.c
 OBJ := $(SRC:.c=.o)
 
-SRC_BONUS_DIR := bonus
 SRC_BONUS := bonus/fractal_utils_bonus.c \
 	bonus/hooks_bonus.c \
 	bonus/main_bonus.c \
